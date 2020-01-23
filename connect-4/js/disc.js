@@ -13,15 +13,15 @@ class Disc
         this.state = "holding";
     }
 
-    get colour()
+    get img()
     {
-        if(this.#id === 1) return "#ffff00";
-        if(this.#id === 2) return "#ff0000";
+        if(this.#id === 1) return img.disc_yellow;
+        if(this.#id === 2) return img.disc_red;
     }
 
     getY(row, scale)
     {
-        return canvas.height - row * scale;
+        return canvas.height - (row + 1) * scale;
     }
 
     tick(board, scale)
@@ -54,17 +54,6 @@ class Disc
 
     draw(scale)
     {
-        let xCentre = this.#x + scale/2,
-            yCentre = this.#y - scale/2;
-
-        ctx.save();
-
-        ctx.lineWidth = "2";
-        ctx.fillStyle = this.colour;
-        ctx.beginPath();
-        ctx.arc(xCentre, yCentre, scale*0.4, 0, 2*Math.PI);
-        ctx.fill();
-
-        ctx.restore();
+        ctx.drawImage(this.img, this.#x, this.#y, scale, scale);
     }
 }

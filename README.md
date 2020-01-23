@@ -9,5 +9,9 @@ Coming soon
 2. Open **index.html** in any modern browser.
 3. If you see 'Your browser does not support a canvas', use another browser.
 
+## Credits
+- https://fontawesome.com/icons/star?style=solid
+- https://fontawesome.com/icons/moon?style=solid
+
 ---
 *LiteTJ*

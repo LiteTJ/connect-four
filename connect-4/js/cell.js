@@ -4,6 +4,7 @@ class Cell
     #col;
 
     occupied = 0;
+    img = img.cell;
 
     constructor(i, j)
     {
@@ -19,18 +20,8 @@ class Cell
     draw(scale)
     {
         let x = this.#col * scale,
-            y = canvas.height - (this.#row * scale),
-            xCentre = x + scale/2,
-            yCentre = y - scale/2;
+            y = canvas.height - ((this.#row + 1) * scale);
 
-        ctx.save();
-
-        ctx.lineWidth = "2";
-        ctx.strokeStyle = this.colour;
-        ctx.beginPath();
-        ctx.arc(xCentre, yCentre, scale*0.4, 0, 2*Math.PI);
-        ctx.stroke();
-
-        ctx.restore();
+        ctx.drawImage(this.img, x, y, scale, scale);
     }
 }

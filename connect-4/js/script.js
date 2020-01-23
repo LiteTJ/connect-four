@@ -1,6 +1,19 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
+/*-------------------------Images-------------------------*/
+const img = {};
+
+img.cell = new Image();
+img.cell.src = "img/cell.svg";
+
+img.disc_yellow = new Image();
+img.disc_yellow.src = "img/disc-yellow.svg";
+
+img.disc_red = new Image();
+img.disc_red.src = "img/disc-red.svg";
+/*-------------------------End of images-------------------------*/
+
 const mouse = {
     x: 0,
     y: 0
