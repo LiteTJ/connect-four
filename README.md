@@ -1,9 +1,6 @@
 # Read Me
 Connect 4 in JavaScript Canvas
 
-## Preview
-![thumbnail-1.png](https://github.com/LiteTJ/connect-four/raw/master/thumbnail-1.png|width=600)
-
 ## Play the game
 Play the game here:
 https://litetj.itch.io/connect-4
