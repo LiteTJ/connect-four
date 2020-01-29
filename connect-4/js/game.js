@@ -6,19 +6,13 @@ class Game
     state;
 
     board;
-    players = [];
-    discs = [];
+    players;
+    discs;
     currentDisc;
 
     constructor()
     {
-        this.board = new Board(6, 7);
-        this.players.push(new Player(1), new Player(2));
-        this.#currentPlayerIndex = 0;
-        this.state = "playing";
-
-        this._createDisc();
-
+        this._init();
         this._setEventHandlers();
     }
 
@@ -42,6 +36,23 @@ class Game
             this.state === "red-wins" ||
             this.state === "draw"
         );
+    }
+
+    _reset()
+    {
+        this.board = new Board(6, 7);
+        this.players = [];
+        this.players.push(new Player(1), new Player(2));
+        this.discs = [];
+        this.#currentPlayerIndex = 0;
+        this.state = "playing";
+
+        this._createDisc();
+    }
+
+    _init()
+    {
+        this._reset();
     }
 
     _createDisc()
@@ -93,6 +104,12 @@ class Game
                     this.currentDisc.state = "dropping";
                     this.state = "animation";
                 }
+            }
+
+            if(this.gameOver)
+            {
+                this._reset();
+                this.tick();
             }
         }
     }

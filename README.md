@@ -2,8 +2,8 @@
 Connect 4 in JavaScript Canvas
 
 ## Play the game
-Play the game here:
-https://litetj.itch.io/connect-4
+Play the game here: https://litetj.itch.io/connect-4
+
 Or download the project to your local repository (see **Installation**)
 
 ## Installation
