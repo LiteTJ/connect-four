@@ -10,11 +10,14 @@ class Game
     discs;
     currentDisc;
 
-    constructor()
+    constructor(mode)
     {
-        this._init();
+        this._init(mode);
         this._setEventHandlers();
     }
+
+    get noRows() { return this.#noRows; }
+    get noCols() { return this.#noCols; }
 
     get currentPlayer()
     {
@@ -38,11 +41,23 @@ class Game
         );
     }
 
-    _reset()
+    _init(mode)
     {
         this.board = new Board(6, 7);
         this.players = [];
-        this.players.push(new Player(1), new Player(2));
+        
+        /*
+            1: player vs player
+            2: player vs AI
+            3: AI vs player
+            4: AI vs AI
+        */
+        if(mode === 1) this.players.push(new Player(1), new Player(2));
+        if(mode === 2) this.players.push(new Player(1), new PlayerAI(2, this.board));
+        if(mode === 3) this.players.push(new PlayerAI(1, this.board), new Player(2));
+        if(mode === 4) this.players.push(new PlayerAI(1, this.board), new PlayerAI(2, this.board));
+
+
         this.discs = [];
         this.#currentPlayerIndex = 0;
         this.state = "playing";
@@ -50,15 +65,17 @@ class Game
         this._createDisc();
     }
 
-    _init()
-    {
-        this._reset();
-    }
-
     _createDisc()
     {
         this.currentDisc = new Disc(this.currentPlayer.id);
         this.discs.push(this.currentDisc);
+    }
+
+    _executeMove(pos)
+    {
+        this.currentDisc.targetIndex = pos;
+        this.currentDisc.state = "dropping";
+        this.state = "animation";
     }
 
     _nextPlayer()
@@ -92,56 +109,24 @@ class Game
         }
 
         canvas.onclick = (e) => {
-            if(this.state === "playing")
+            if(this.state === "playing" && this.currentPlayer.entity === "human")
             {
                 let col = Math.floor(mouse.x / this.scale);
-
                 let pos = this.currentPlayer.dropDisc(this.board, col);
 
-                if(pos !== false)
-                {
-                    this.currentDisc.targetIndex = pos;
-                    this.currentDisc.state = "dropping";
-                    this.state = "animation";
-                }
+                if(pos !== false) this._executeMove(pos);
             }
 
             if(this.gameOver)
             {
-                this._reset();
-                this.tick();
+                reset();
             }
         }
     }
 
-    _displayResult()
+    reset(mode)
     {
-        let text;
-
-        switch(this.state)
-        {
-            case "yellow-wins":
-                text = "Yellow Wins";
-                break;
-            case "red-wins":
-                text = "Red Wins";
-                break;
-            case "draw":
-                text = "Tie Game";
-                break;
-        }
-
-        ctx.save();
-
-        let textSize = this.scale * 0.4,
-            height = canvas.height - this.scale * this.#noRows - this.scale/2 + textSize/2;
-
-        ctx.font = textSize + "px Trebuchet MS";
-        ctx.fillStyle = "#0000ff";
-        ctx.textAlign = "center";
-        ctx.fillText(text, canvas.width/2, height);
-
-        ctx.restore();
+        this._init(mode);
     }
 
     tick()
@@ -153,6 +138,21 @@ class Game
 
         switch(this.state)
         {
+            case "playing":
+                if(this.currentPlayer.entity === "AI")
+                {
+                    let pos = this.currentPlayer.makeRandomMove(this.#noCols);
+
+                    if(pos !== false)
+                    {
+                        let col = pos[1];
+                        this.currentDisc.setColumn(col, this.scale);
+                        this._executeMove(pos);
+                    }
+                }
+
+                break;
+
             case "animation":
                 if(this.currentDisc.state === "resting")
                 {
@@ -167,21 +167,10 @@ class Game
         }
 
         //GUI
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
         this.discs.forEach(disc => {
             disc.draw(this.scale);
         });
 
         this.board.draw(this.scale);
-
-        if(this.gameOver)
-        {
-            this._displayResult();
-        } else
-        {
-            //Next frame
-            window.requestAnimationFrame(() => { this.tick(); });
-        }
     }
 }

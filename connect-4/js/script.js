@@ -19,12 +19,41 @@ const mouse = {
     y: 0
 }
 
+let GAME;
+
 window.onload = () => {
     console.log("Connect 4 by LiteTJ");
     console.log("---------------------------------------------------------");
+    console.log("Make a menu that allows user to choose mode");
     console.log("Bugs:");
     console.log("If user clicks fast, a disc may not show on the board (Business logic is consistent but not GUI)");
 
-    const GAME = new Game();
+    init();
+}
+
+function init()
+{
+    GAME = new Game(3);
+    tick();
+}
+
+function reset()
+{
+    GAME.reset(3);
+    tick();
+}
+
+function tick()
+{
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     GAME.tick();
+
+    if(GAME.gameOver)
+    {
+        GUI.drawGameOver(GAME.state, GAME.scale, GAME.noRows);
+    } else
+    {
+        window.requestAnimationFrame(tick);
+    }
 }

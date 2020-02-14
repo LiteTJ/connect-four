@@ -24,6 +24,11 @@ class Disc
         return canvas.height - (row + 1) * scale;
     }
 
+    setColumn(col, scale)
+    {
+        this.#x = col * scale;
+    }
+
     tick(board, scale)
     {
         switch(this.state)

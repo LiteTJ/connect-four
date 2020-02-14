@@ -1,13 +1,18 @@
 class Player
 {
     #id;
+    #entity;
 
     constructor(id)
     {
         this.#id = id;
+        this.#entity = "human";
     }
 
     get id() { return this.#id; }
+    get entity() { return this.#entity; }
+
+    set entity(entity) { this.#entity = entity }
 
     dropDisc(board, col)
     {

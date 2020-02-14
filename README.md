@@ -12,6 +12,7 @@ Or download the project to your local repository (see **Installation**)
 3. If you see 'Your browser does not support a canvas', use another browser.
 
 ## Credits
+- https://www.dafont.com/plump.font
 - https://fontawesome.com/icons/star?style=solid
 - https://fontawesome.com/icons/moon?style=solid
 
