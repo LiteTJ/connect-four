@@ -3,6 +3,7 @@ class Game
     #noRows = 6;
     #noCols = 7;
     #currentPlayerIndex;
+    #currentMode;
     state;
 
     board;
@@ -57,7 +58,7 @@ class Game
         if(mode === 3) this.players.push(new PlayerAI(1, this.board), new Player(2));
         if(mode === 4) this.players.push(new PlayerAI(1, this.board), new PlayerAI(2, this.board));
 
-
+        this.#currentMode = mode;
         this.discs = [];
         this.#currentPlayerIndex = 0;
         this.state = "playing";
@@ -119,7 +120,7 @@ class Game
 
             if(this.gameOver)
             {
-                reset();
+                reset(this.#currentMode);
             }
         }
     }

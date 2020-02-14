@@ -12,6 +12,18 @@ img.disc_yellow.src = "img/disc-yellow.svg";
 
 img.disc_red = new Image();
 img.disc_red.src = "img/disc-red.svg";
+
+img.button_two_player = new Image();
+img.button_two_player.src = "img/buttons/player-player.svg";
+
+img.button_player_ai = new Image();
+img.button_player_ai.src = "img/buttons/player-ai.svg";
+
+img.button_ai_player = new Image();
+img.button_ai_player.src = "img/buttons/ai-player.svg";
+
+img.button_two_ai = new Image();
+img.button_two_ai.src = "img/buttons/ai-ai.svg";
 /*-------------------------End of images-------------------------*/
 
 const mouse = {
@@ -33,13 +45,13 @@ window.onload = () => {
 
 function init()
 {
-    GAME = new Game(3);
-    tick();
+    GAME = new Game(1);
+    GUI.drawMenu(GAME.scale);
 }
 
-function reset()
+function reset(mode)
 {
-    GAME.reset(3);
+    GAME.reset(mode);
     tick();
 }
 
