@@ -28,7 +28,8 @@ img.button_two_ai.src = "img/buttons/ai-ai.svg";
 
 const mouse = {
     x: 0,
-    y: 0
+    y: 0,
+    clicked: false
 }
 
 let GAME;
@@ -36,8 +37,8 @@ let GAME;
 window.onload = () => {
     console.log("Connect 4 by LiteTJ");
     console.log("---------------------------------------------------------");
-    console.log("Make a menu that allows user to choose mode");
     console.log("Bugs:");
+    console.log("Since mouse is clicked when game starts, 1st disc is placed immediately.");
     console.log("If user clicks fast, a disc may not show on the board (Business logic is consistent but not GUI)");
 
     init();
@@ -45,6 +46,8 @@ window.onload = () => {
 
 function init()
 {
+    setGlobalEventHandlers();
+
     GAME = new Game(1);
     GUI.drawMenu(GAME.scale);
 }
@@ -67,5 +70,27 @@ function tick()
     } else
     {
         window.requestAnimationFrame(tick);
+    }
+}
+
+function setGlobalEventHandlers()
+{
+    window.onmousemove = (e) => {
+
+        let rect = canvas.getBoundingClientRect(e);
+
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+    };
+
+    window.onmousedown = (e) => {
+        mouse.clicked = true;
+
+        //Bad code but temporarily fixes small bug
+        canvas.dispatchEvent(new Event("mousemove"));
+    }
+
+    window.onmouseup = (e) => {
+        mouse.clicked = false;
     }
 }

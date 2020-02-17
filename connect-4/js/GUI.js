@@ -1,5 +1,14 @@
 class GUI
 {
+    static drawMenuButtons(buttons)
+    {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        buttons.forEach(button => {
+            button.draw();
+        });
+    }
+
     static drawMenu(scale)
     {
         let width = scale*3,
@@ -13,8 +22,29 @@ class GUI
             new Button(x, y + scale*1.5, width, "auto", "two-ai", img.button_two_ai),
         ]
 
-        buttons.forEach(button => {
-            button.draw();
+        GUI.drawMenuButtons(buttons);
+
+        canvas.addEventListener("mousemove", (e) => {
+            if(GAME.state === "menu")
+            {
+                buttons.forEach(button => {
+                    if(button.isHover())
+                    {
+                        button.alpha = 0.5;
+
+                        if(mouse.clicked)
+                        {
+                            let mode = GAME.getMode(button.id);
+                            reset(mode);
+                        }
+                    } else
+                    {
+                        button.alpha = 1;
+                    }
+                });
+
+                GUI.drawMenuButtons(buttons);
+            }
         });
     }
 

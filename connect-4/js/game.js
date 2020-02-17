@@ -15,6 +15,7 @@ class Game
     {
         this._init(mode);
         this._setEventHandlers();
+        this.state = "menu";
     }
 
     get noRows() { return this.#noRows; }
@@ -102,13 +103,6 @@ class Game
 
     _setEventHandlers()
     {
-        canvas.onmousemove = (e) => {
-            let rect = canvas.getBoundingClientRect(e);
-
-            mouse.x = e.clientX - rect.left;
-            mouse.y = e.clientY - rect.top;
-        }
-
         canvas.onclick = (e) => {
             if(this.state === "playing" && this.currentPlayer.entity === "human")
             {
@@ -123,6 +117,14 @@ class Game
                 reset(this.#currentMode);
             }
         }
+    }
+
+    getMode(buttonId)
+    {
+        if(buttonId === "two-player") return 1;
+        if(buttonId === "player-ai") return 2;
+        if(buttonId === "ai-player") return 3;
+        if(buttonId === "two-ai") return 4;
     }
 
     reset(mode)

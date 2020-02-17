@@ -7,6 +7,7 @@ class Button
     #id;
 
     img;
+    alpha;
 
     constructor(x, y, width, height, id, img)
     {
@@ -28,8 +29,21 @@ class Button
 
     get id() { return this.#id; }
 
+    get hitbox()
+    {
+        return new SAT.Box(new SAT.Vector(this.#x, this.#y), this.#width, this.#height).toPolygon();
+    }
+
+    isHover()
+    {
+        return SAT.pointInPolygon(new SAT.Vector(mouse.x, mouse.y), this.hitbox);
+    }
+
     draw()
     {
+        ctx.save();
+        ctx.globalAlpha = this.alpha;
         ctx.drawImage(this.img, this.#x, this.#y, this.#width, this.#height);
+        ctx.restore();
     }
 }
