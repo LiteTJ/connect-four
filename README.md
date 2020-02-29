@@ -18,8 +18,7 @@ AI makes random moves (for now).
 
 ## Credits
 - https://www.dafont.com/plump.font
-- https://fontawesome.com/icons/star?style=solid
-- https://fontawesome.com/icons/moon?style=solid
+- https://fontawesome.com/license
 
 ---
 *LiteTJ*
